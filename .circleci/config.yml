@@ -11,6 +11,6 @@ workflows:
     jobs:
       - cypress/run:
           name: run-e2e-tests
-          # start-command: npm run start:dev
-          cypress-command: npm run build; npm run start:dev; npx cypress run --browser electron --headless
+          cypress-command:  npx cypress run --browser electron --headless
+          start-command: npm run start:dev
           

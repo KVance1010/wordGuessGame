@@ -1,20 +1,17 @@
-#  🔑 Our configuration file is YAML, which is a data serialization language. We use version `2.1` in our CircleCI configuration:
 version: 2.1
 
-# 🔑 We first define our jobs. Our configuration just has the `hello-world-job`:
-# In CircleCI, jobs are a collection of steps that are executed together. The job is executed within a container or a virtual machine. 
-jobs:
-  # Our hello-world-job just has one step where it runs the command echo "Hello, World" in our CircleCI base container.
-  hello-world-job:
-  # In this example, we are using a docker container to run our job steps. Docker is a platform that allows you to create, manage, and run containers. A container is a unit of software that packages up code and all dependencies so that that code can be run quickly and reliably despite the computing environment. Docker creates a container using an image.
-    docker:
-      - image: cimg/base:current
-    steps:
-      - run: echo "Hello, World!"
+# 🔑 A CircleCI orb is a reusable snippet of code that helps to automate a repeated process and makes it easy to integrate with third-party tools. Here, we can use the Cypress orb to make it easier to run our Cypress tests in our application:
+orbs:
+  # cypress orb simplifies the process of running cypress tests in CircleCI by providing a set of pre-configured commands and executors, reducing the amount of configuration needed to run cypress tests.
+  cypress: cypress-io/cypress@3.3.1
 
-# 🔑 We then define our workflows. Without a workflow, our job definitions would not run by themselves.
+
 workflows:
-  hello-world-workflow:
+  run-tests:
     jobs:
-    # Note that the - symbol denotes a possible list of items for a certain value. We have a - before our job name, because jobs can contain a list of jobs to run.
-      - hello-world-job
+      - cypress/run:
+          name: run-e2e-tests
+          cypress-command: npx cypress run --browser electron --headless
+          # Make sure to add MONGODB_URI to ENVIRONMENT VARIABLES in CircleCI so that the tests can connect to the database
+          start-command: npm run start:dev
+          

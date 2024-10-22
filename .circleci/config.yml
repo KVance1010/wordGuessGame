@@ -14,3 +14,12 @@ jobs:
       - run:
           name: "echo an env var that is part of our project"
           command: echo $MONGODB_URI
+      - run:
+          name: "Check MONGODB_URI"
+          command: |
+            if [ -z "$MONGODB_URI" ]; then
+              echo "MONGODB_URI is not set"
+              exit 1
+            else
+              echo "MONGODB_URI is set to $MONGODB_URI"
+            fi

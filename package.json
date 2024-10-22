@@ -14,6 +14,7 @@
     "client:dev": "cd client && npm run dev",
     "seed": "cd server && npm run seed",
     "cypress": "npx cypress open",
+    "build": "npm run client:build && npm run server:build",
     "test:component": "npx cypress run --component",
     "test:e2e": "npx cypress run",
     "test:gui": "npx cypress open --detached",

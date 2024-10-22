@@ -7,9 +7,8 @@ workflows:
   run-tests:
     jobs:
       - cypress/run:
-          name:start-server
+          name: start-server
           start-command: npm run start:dev 
-
       - cypress/run:
           name: run-e2e-tests
           cypress-command: npx cypress run --browser electron --headless

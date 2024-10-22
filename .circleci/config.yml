@@ -1,16 +1,17 @@
 version: 2.1
 
-# 🔑 A CircleCI orb is a reusable snippet of code that helps to automate a repeated process and makes it easy to integrate with third-party tools. Here, we can use the Cypress orb to make it easier to run our Cypress tests in our application:
 orbs:
-  # cypress orb simplifies the process of running cypress tests in CircleCI by providing a set of pre-configured commands and executors, reducing the amount of configuration needed to run cypress tests.
   cypress: cypress-io/cypress@3.3.1
-
 
 workflows:
   run-tests:
     jobs:
       - cypress/run:
           name: run-e2e-tests
-          cypress-command: npm run start:dev; npx cypress run --browser electron --headless
-          # start-command: npm run start:dev
+          cypress-command: npx cypress run --browser electron --headless
+          # Make sure to add MONGODB_URI to ENVIRONMENT VARIABLES in CircleCI so that the tests can connect to the database
+          start-command: npm run start:dev
+      - cypress/run:
+          name: run-component-tests
+          cypress-command: npx cypress run --component
           

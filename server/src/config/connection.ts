@@ -3,7 +3,7 @@ dotenv.config();
 
 import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://kvance:password1234@cluster0.ugwti.mongodb.net/wordGuessingGame?retryWrites=true&w=majority&appName=Cluster0';
+const MONGODB_URI = process.env.MONGODB_URI || '';
 
 const db = async (): Promise<typeof mongoose.connection> => {
   try {

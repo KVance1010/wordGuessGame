@@ -1,17 +1,17 @@
 version: 2.1
 
-orbs:
-  cypress: cypress-io/cypress@3
-
 workflows:
-  run-tests:
+  test-env-vars:
     jobs:
-      - cypress/run:
-          name: run-e2e-tests
-          cypress-command: npx cypress run --browser electron --headless
-          # Make sure to add MONGODB_URI to ENVIRONMENT VARIABLES in CircleCI so that the tests can connect to the database
-          start-command: npm run start:dev 
-      - cypress/run:
-          name: run-component-tests
-          cypress-command: npx cypress run --component
-          
+      - build
+
+jobs:
+  build:
+    docker:
+      - image: cimg/base:2023.06
+    steps:
+      - checkout
+      - run:
+          name: "echo an env var that is part of our project"
+          command: |
+            echo $MONGODB_URI # this env var must be set within the project

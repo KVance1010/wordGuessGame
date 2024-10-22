@@ -13,4 +13,4 @@ jobs:
       - checkout
       - run:
           name: "echo an env var that is part of our project"
-        command: echo $MONGODB_URI
+          command: echo $MONGODB_URI

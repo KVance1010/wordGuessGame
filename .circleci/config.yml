@@ -1,25 +1,34 @@
 version: 2.1
 
-workflows:
-  test-env-vars:
-    jobs:
-      - build
+orbs:
+  cypress: cypress-io/cypress@3.3.1
 
 jobs:
-  build:
+  deploy-to-render-staging:
     docker:
-      - image: cimg/base:2023.06
+      - image: cimg/base:current
     steps:
-      - checkout
       - run:
-          name: "echo an env var that is part of our project"
-          command: echo $MONGODB_URI
-      - run:
-          name: "Check MONGODB_URI"
+          name: Deploy to Render Staging
           command: |
-            if [ -z "$MONGODB_URI" ]; then
-              echo "MONGODB_URI is not set"
-              exit 1
-            else
-              echo "MONGODB_URI is set to $MONGODB_URI"
-            fi
+            echo "Deploying to Render Staging"
+            curl $RENDER_STAGING_DEPLOYHOOK
+
+workflows:
+  run-tests-and-deploy-to-staging:
+    jobs:
+      - cypress/run:
+          name: run-e2e-tests
+          cypress-command: npx cypress run --browser electron --headless
+          # Make sure to add MONGODB_URI to ENVIRONMENT VARIABLES in CircleCI so that the tests can connect to the database
+          start-command: npm run start:dev
+      - cypress/run:
+          name: run-component-tests
+          cypress-command: npx cypress run --component
+      - deploy-to-render-staging:
+          requires:
+            - run-e2e-tests
+            - run-component-tests
+          filters:
+            branches:
+              only: main

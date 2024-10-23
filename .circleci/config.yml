@@ -19,9 +19,9 @@ workflows:
     jobs:
       - cypress/run:
           name: run-e2e-tests
-          cypress-command: npx cypress run --browser electron --headless
+          cypress-command: npm run build && npm run start:dev && npx cypress run --browser electron --headless
           # Make sure to add MONGODB_URI to ENVIRONMENT VARIABLES in CircleCI so that the tests can connect to the database
-          start-command: npm run start:dev
+          # start-command: npm run start:dev
       - cypress/run:
           name: run-component-tests
           cypress-command: npx cypress run --component

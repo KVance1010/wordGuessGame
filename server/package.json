@@ -16,14 +16,14 @@
       "src"
     ],
     "ext": "ts,json,js",
-    "exec": "node dist/server.js"
+    "exec": "npx tsc && node dist/server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.19.2",
-    "mongoose": "^8.4.1"
+    "mongoose": "^8.7.2"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
